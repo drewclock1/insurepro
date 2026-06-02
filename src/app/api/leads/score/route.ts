@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { createServiceRoleClient } from '@/lib/supabase-server'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+// Lazy init — only create when actually needed (avoids build-time error)
+const getOpenAI = () => new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 // Score a single lead — called on lead creation or by cron for batch scoring
 export async function POST(req: NextRequest) {
@@ -17,6 +18,7 @@ export async function POST(req: NextRequest) {
 
   if (!lead) return NextResponse.json({ error: 'Lead not found' }, { status: 404 })
 
+  const openai = getOpenAI()
   const completion = await openai.chat.completions.create({
     model: 'gpt-4-turbo-preview',
     messages: [{

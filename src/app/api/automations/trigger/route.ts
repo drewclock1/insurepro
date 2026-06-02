@@ -3,7 +3,8 @@ import { createServiceRoleClient } from '@/lib/supabase-server'
 import twilio from 'twilio'
 import OpenAI from 'openai'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+// Lazy init — avoid build-time error when OPENAI_API_KEY not set
+const getOpenAI = () => new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 type TriggerEvent =
   | 'new_lead'
@@ -94,6 +95,7 @@ export async function POST(req: NextRequest) {
 
     if (step1.ai_personalize) {
       try {
+        const openai = getOpenAI()
         const completion = await openai.chat.completions.create({
           model: 'gpt-4-turbo-preview',
           messages: [{
