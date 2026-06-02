@@ -6,7 +6,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  serverExternalPackages: ['twilio', 'openai', 'googleapis'],
+  experimental: {
+    serverComponentsExternalPackages: ['twilio', 'openai', 'googleapis'],
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**.supabase.co' },
