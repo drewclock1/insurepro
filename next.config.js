@@ -1,15 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    // Allow build to succeed even with type errors — we'll fix them post-deploy
     ignoreBuildErrors: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    serverComponentsExternalPackages: ['twilio', 'openai', 'googleapis'],
-  },
+  serverExternalPackages: ['twilio', 'openai', 'googleapis'],
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**.supabase.co' },
