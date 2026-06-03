@@ -1,3 +1,6 @@
+// Prevent static prerendering — CRM pages need runtime auth + env vars
+export const dynamic = 'force-dynamic'
+
 import { redirect } from 'next/navigation'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import Sidebar from '@/components/layout/Sidebar'
